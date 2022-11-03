@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<head>
+    <title>
+        List pages
+    </title>
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+<script type="text/javascript" src="{% static 'js/jquery-3.6.1.min.js' %}"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+<script type="text/javascript">
+    function addProduct(url)
+    {
+        window.open(url,'Add product','height=350,width=900');
+
+    }
+    function editproduct(id)
+    {
+        url="{% url 'edit_product' 12345 %}".replace('12345',id);
+        window.open(url,'Edit product','height=350,width=900');  
+    }
+    $(document).ready(function () {
+        $('#example').DataTable({
+            "columnDefs": [
+                    { "searchable": false, "targets": [1,2,3] }
+                ]
+        });
+    });
+</script>
+</head>
+<body>
+    <div class="container">
+    
+
+        <table id="example" class="table table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <tr>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </tr>
+            </thead>
+            <tbody>
+               
+                {% if all_products %}
+                {% for product in all_products %}
+                <tr>
+                    <td>{{product.name}}</td>
+                    <td>{{product.price}}</td>
+                    <td>{{product.quantity}}</td>
+                    <td><a href="javascript:void(0);" onclick="editproduct({{product.id}})">edit</a></td>
+                </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </tfoot>
+        </table>
+
+
+
+        <div class="col-sm-12 text-center">
+            <button type="button" class="btn btn-primary" onclick="addProduct({% url 'add_product' %})">add product</button>
+
+        </div>    
+    </div>
+
+</body>
+
+</html>
