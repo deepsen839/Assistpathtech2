@@ -3,6 +3,13 @@ from .forms import ProductForm
 from .models import ProductModel
 from django.http import HttpResponse,HttpResponseRedirect
 from django.urls import reverse
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.views import APIView
+from .serializers import ProductSerializer
+from rest_framework import filters
+from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
 # Create your views here.
 def add_product(request):
 
@@ -29,3 +36,14 @@ def edit_product(request,id):
         return HttpResponse('<script type="text/javascript">window.opener.location.reload();window.close();</script>')
     else:
         return render(request,'product/edit_product.html',{'productform':productform})
+
+class ProductListCreate(ListCreateAPIView):
+    queryset = ProductModel.objects.all()
+    serializer_class = ProductSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name',]
+
+class ProductupdateRetrieveDestroy(RetrieveUpdateDestroyAPIView):
+    queryset = ProductModel.objects.all()
+    serializer_class = ProductSerializer
+       

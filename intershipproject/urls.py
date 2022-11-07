@@ -24,4 +24,6 @@ urlpatterns = [
     path('', productview.product_list,name='product_list'),
     path('add_product/', productview.add_product,name="add_product"),
     path('edit_product/<int:id>', productview.edit_product,name="edit_product"),
+    path('api/product',productview.ProductListCreate.as_view()),
+    path('api/product/<int:pk>',productview.ProductupdateRetrieveDestroy.as_view())
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
